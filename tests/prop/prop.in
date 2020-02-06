@@ -1,0 +1,13 @@
+A
+A::getReadWrite
+A::getReadOnly
+A::get_read_write
+A::get_read_only
+A::get
+A::get_
+A::setReadWrite
+A::setWriteOnly
+A::set_read_write
+A::set_write_only
+A::set
+A::set_

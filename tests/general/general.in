@@ -1,0 +1,12 @@
+NS::Example
+NS::Example::Example
+NS::Example::print
+NS::Example::operator+
+NS::Example::operator+=
+NS::Example::readwrite
+NS::Example::type
+NS::Example::ca
+NS::Example::getX
+NS::Example::setX
+NS::Example::getY
+NS::f

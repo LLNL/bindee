@@ -1,0 +1,4 @@
+bindee
+*.d
+*.o
+.*.swp
