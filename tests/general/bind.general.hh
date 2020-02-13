@@ -22,7 +22,7 @@ void bind_Example(Target &target) {
     std::string docString = @DOC_STRING@;
 
     py::class_<Class> bindee(target, className.c_str(), docString.c_str());
-    bindee.def(py::init<int>());
+    bindee.def(py::init<int>(), py::arg("x"));
     bindee.def(py::init<const Class &>());
     bindee.def_property_readonly("y", (bool (Class::*)() const) &Class::getY);
     bindee.def_property("x", (const int (Class::*)() const) &Class::getX, (void (Class::*)(int)) &Class::setX);
