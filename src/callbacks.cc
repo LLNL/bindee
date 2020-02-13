@@ -563,6 +563,10 @@ run(const clang::ast_matchers::MatchFinder::MatchResult &result) {
             const auto *cxxRecordDecl = dynamic_cast<const clang::CXXRecordDecl*>(record);
             qualCls = cxxRecordDecl->getQualifiedNameAsString();
 
+            if (decl->getAccess() != clang::AS_public) {
+                return;
+            }
+
             const auto *classTemplateDecl = cxxRecordDecl->getDescribedClassTemplate();
             if (classTemplateDecl) {
                 // in template

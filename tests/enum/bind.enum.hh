@@ -10,6 +10,8 @@ namespace py = pybind11;
 // Records.
 
 template <typename Target>
+void bind_Private(Target &target);
+template <typename Target>
 void bind__(Target &target);
 template <typename Target>
 void bind__nontemplated(Target &target);
@@ -44,6 +46,16 @@ template <typename Target>
 void bind_lower_1(Target &target);
 
 // Bind functions.
+
+template <typename Target>
+void bind_Private(Target &target) {
+    using Class = Private;
+
+    std::string className = "Private";
+    std::string docString = @DOC_STRING@;
+
+    py::class_<Class> bindee(target, className.c_str(), docString.c_str());
+}
 
 template <typename Target>
 void bind__(Target &target) {

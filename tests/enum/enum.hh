@@ -1,4 +1,4 @@
-// -i enum.in enum.hh --
+// enum.hh --
 
 enum A { AA };
 enum class B { BA, BB };
@@ -33,6 +33,11 @@ struct x {
 
 struct _ {
     enum class lower { _a };
+};
+
+class Private {
+    enum a { pa };
+    enum class b { pb };
 };
 
 _nontemplated::D foo(_nontemplated::C);
