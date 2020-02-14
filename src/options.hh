@@ -15,7 +15,10 @@ class Options {
 public:
     std::string headerPath;
     std::string outputPath;
+    std::string inputFile;
     bool dumpMode;
+    bool inputMode;
+    bool pipelineMode;
     bool useProp;
     bool useChain;
     bool bindOverrides;

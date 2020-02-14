@@ -4,6 +4,11 @@
 # 
 # SPDX-License-Identifier: MIT
 
+if [ $# -ne 1 ]; then
+    echo "usage: $0 bindee" >&2
+    exit
+fi
+
 bindee=$(readlink -f $1)
 root=$(dirname $(readlink -f $0))
 

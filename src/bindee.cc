@@ -262,7 +262,7 @@ bind(const Info &info) const
         }
     }
 
-    // Kwargs.
+    // Kwargs and defaults.
     if (!isOperator()) {
         for (const auto &param : params) {
             if (param.name.empty()) { continue; }
@@ -290,7 +290,19 @@ _bindConstructor(const Info &info) const
             ss << ", ";
         }
     }
-    ss << ">())";
+    ss << ">()";
+
+    // Kwargs and defaults.
+    for (const auto &param : params) {
+        if (param.name.empty()) { continue; }
+
+        ss << ", py::arg(\"" << param.name << "\")";
+        if (!param.defaultArg.empty()) {
+            ss << " = " << param.defaultArg;
+        }
+    }
+
+    ss << ")";
     return ss.str();
 }
 

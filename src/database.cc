@@ -117,7 +117,7 @@ Database::
 add(const RecordBindee &bindee)
 {
     // Only bind specified targets.
-    if (!opts.dumpMode && _targets.find(bindee.qualName) == _targets.end()) {
+    if (opts.inputMode && _targets.find(bindee.qualName) == _targets.end()) {
         return;
     }
 
@@ -136,7 +136,7 @@ Database::
 add(const FunctionBindee &bindee)
 {
     // Only bind specified targets.
-    if (!opts.dumpMode && _targets.find(bindee.qualName) == _targets.end()) {
+    if (opts.inputMode && _targets.find(bindee.qualName) == _targets.end()) {
         return;
     }
 
@@ -180,7 +180,7 @@ Database::
 add(const VariableBindee &bindee)
 {
     // Only bind specified targets.
-    if (!opts.dumpMode && _targets.find(bindee.qualName) == _targets.end()) {
+    if (opts.inputMode && _targets.find(bindee.qualName) == _targets.end()) {
         return;
     }
 
@@ -203,7 +203,7 @@ Database::
 add(const EnumBindee &bindee)
 {
     // Only bind specified targets.
-    if (!opts.dumpMode && _targets.find(bindee.qualName) == _targets.end()) {
+    if (opts.inputMode && _targets.find(bindee.qualName) == _targets.end()) {
         return;
     }
 
