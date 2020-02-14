@@ -25,7 +25,7 @@ namespace Bindee {
     Options opts;
 }
 
-int run(ClangTool &clangTool, std::string inputFile = "");
+int run(ClangTool &clangTool);
 
 int main(int argc, const char **argv) {
 
@@ -152,7 +152,10 @@ int main(int argc, const char **argv) {
     Bindee::Options &opts = Bindee::opts;
     opts.headerPath     = optsParser.getSourcePathList().front();
     opts.outputPath     = outputOpt;
+    opts.inputFile      = inputFile;
     opts.dumpMode       = dumpMode;
+    opts.inputMode      = inputMode;
+    opts.pipelineMode   = pipelineMode;
     opts.useProp        = propertyOpt;
     opts.useChain       = chainOpt;
     opts.bindOverrides  = overrideOpt;
@@ -183,50 +186,26 @@ int main(int argc, const char **argv) {
 #endif
 
     // Run.
-    int rc = 0;
-    if (pipelineMode) {
+    if (opts.pipelineMode) {
         if (opts.outputPath.empty()) {
             opts.outputPath = "bind." + opts.headerFile();
         }
-        std::string origPath(opts.outputPath);
-
-        inputFile = opts.headerFile();
-        inputFile = inputFile.substr(0, inputFile.rfind(".")) + ".in";
-
-        // Dump.
-        opts.dumpMode = true;
-        opts.outputPath = inputFile;
-        rc = run(clangTool);
-        if (rc) { return rc; }
-        std::cout << std::endl;
-
-        // Bind.
-        opts.dumpMode = false;
-        opts.outputPath = origPath;
-        rc = run(clangTool, inputFile);
-        if (rc) { return rc; }
-
-        std::cout << "\nDeleting: " << inputFile << "\n";
-        rc = std::remove(inputFile.c_str());
-        if (rc) { std::cout << "error: " << std::strerror(errno) << "\n"; }
     } else if (dumpMode) {
         if (opts.outputPath.empty()) {
             std::string outFile(opts.headerFile());
             outFile = outFile.substr(0, outFile.rfind("."));
             opts.outputPath = outFile + ".in";
         }
-        rc = run(clangTool);
     } else if (inputMode) {
         if (opts.outputPath.empty()) {
             opts.outputPath = "bind." + opts.headerFile();
         }
-        rc = run(clangTool, inputFile);
     }
-
-    return rc;
+    return run(clangTool);
 }
 
-int run(ClangTool &clangTool, std::string inputFile) {
+int run(ClangTool &clangTool) {
+    Bindee::Options &opts = Bindee::opts;
     int rc = 0;
 
     // '_Bool' -> 'bool'
@@ -236,8 +215,8 @@ int run(ClangTool &clangTool, std::string inputFile) {
 
     // Database.
     Bindee::Database db;
-    if (!inputFile.empty()) {
-        rc = db.addTargets(inputFile);
+    if (opts.inputMode) {
+        rc = db.addTargets(opts.inputFile);
         if (rc != 0) { return rc; }
     }
 
@@ -290,8 +269,8 @@ int run(ClangTool &clangTool, std::string inputFile) {
 
     // Run.
     std::cout << "!! processing; bad statements will not generate ";
-    if (inputFile.empty()) { std::cout << "names.\n"; }
-    else                   { std::cout << "bindings.\n"; }
+    if (opts.dumpMode) { std::cout << "names.\n"; }
+    else               { std::cout << "bindings.\n"; }
     Bindee::ErrorCountDiagnosticConsumer dc;
     clangTool.setDiagnosticConsumer(&dc);
     clangTool.run(newFrontendActionFactory(&finder).get());
@@ -302,7 +281,7 @@ int run(ClangTool &clangTool, std::string inputFile) {
     }
     std::cout << "!! processing; done." << "\n\n";
     
-    if (inputFile.empty()) {
+    if (opts.dumpMode) {
         rc = db.dump();
         if (rc) {
             std::cerr << "error: failed to write input file.\n";
