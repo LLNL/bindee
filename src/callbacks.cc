@@ -293,8 +293,6 @@ run(const clang::ast_matchers::MatchFinder::MatchResult &result)
             std::string thisSig = methodSignature(method);
             bool skipOverride = false;
 
-            printf("checking override %s\n", qualName.c_str());
-
             if (method->size_overridden_methods() == 0) {
                 // Check for override in templated base.
                 for (const auto &base : parent->bases()) {
