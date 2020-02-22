@@ -291,6 +291,7 @@ run(const clang::ast_matchers::MatchFinder::MatchResult &result)
         // Skip overrides if desired.
         if (!opts.bindOverrides && method->isVirtual()) {
             std::string thisSig = methodSignature(method);
+            bool skipOverride = false;
 
             if (method->size_overridden_methods() == 0) {
                 // Check for override in templated base.
@@ -308,21 +309,24 @@ run(const clang::ast_matchers::MatchFinder::MatchResult &result)
                     for (const auto *cxxMethodDecl : cxxRecordDecl->methods()) {
                         if (!cxxMethodDecl->isVirtual()) { continue; }
                         if (thisSig == methodSignature(cxxMethodDecl)) {
-                            std::cerr << "bindee: toggle: skipping overriding method: "
-                                      << qualName << "\n";
-                            return;
+                            skipOverride = true;
                         }
                     }
                 }
             } else {
                 // Need to bind override if there is an overload.
-                bool hasOverload = false;
+                skipOverride = true;
                 for (const auto other : parent->methods()) {
-                    if (name == other->getNameAsString()) {
-                        hasOverload = true;
+                    if (name == other->getNameAsString() && thisSig != methodSignature(other)) {
+                        skipOverride = false;
                     }
                 }
-                if (!hasOverload) { return; }
+            }
+
+            if (skipOverride) { 
+                std::cerr << "bindee: toggle: skipping overriding method: "
+                          << qualName << "\n";
+                return;
             }
         }
 
