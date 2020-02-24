@@ -38,6 +38,10 @@ $ ./bindee -i file.in file.hh -- [compiler_flags]
 
 After generating a bind file, replace any `@TEXT@` strings until the code successfully compiles.
 
+### Limitations
+- Fails to qualify typedefs of namespaced, templated classes used in function signatures.
+- Does not generate custom lambda bindings or trampolines.
+
 ### Contributing
 
 Contributions may be made by creating a pull request into the `master` branch.
