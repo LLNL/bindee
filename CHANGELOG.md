@@ -1,15 +1,18 @@
 # Changelog
 
 ## [Unreleased]
+#### Added
+- Semantic versioning.
+- "Limitations" section.
 #### Fixed
-- Duplicate override bindings.
+- Redundant override bindings.
 
 ## [2.1] - Feb 14, 2020
 #### Added
 - One-pass pipeline mode.
 - Constructor kwargs and defaults.
 #### Fixed
-- Skip non-public enums.
+- Skipping of non-public enums.
 
 ## [2.0] - Feb 6, 2020
 #### Added
