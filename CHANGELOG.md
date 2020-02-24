@@ -1,6 +1,8 @@
 # Changelog
 
 ## [Unreleased]
+
+## [2.1.1]
 #### Added
 - Semantic versioning.
 - "Limitations" section.
@@ -18,6 +20,7 @@
 #### Added
 - Initial release.
 
-[Unreleased]: https://github.com/LLNL/bindee/compare/v2.1...HEAD
+[Unreleased]: https://github.com/LLNL/bindee/compare/v2.1.1...HEAD
+[2.1.1]: https://github.com/LLNL/bindee/compare/v2.1...v2.1.1
 [2.1]: https://github.com/LLNL/bindee/compare/v2.0...v2.1
 [2.0]: https://github.com/LLNL/bindee/releases/tag/v2.0
