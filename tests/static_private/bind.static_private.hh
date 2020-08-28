@@ -27,9 +27,11 @@ void bind_Example(Target &target) {
     bindee.def_readonly_static("ca", &Class::ca);
 }
 
-void bind_static_private_globals(py::module &bindee) {
-    bindee.attr("b") = NS::b;
-    bindee.attr("c") = NS::c;
+template <typename Target>
+void bind_static_private_globals(Target &target) {
+    namespace py = pybind11;
+    target.attr("b") = NS::b;
+    target.attr("c") = NS::c;
 }
 
 #endif // BIND_STATIC_PRIVATE_HH

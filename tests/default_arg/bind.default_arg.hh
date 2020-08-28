@@ -26,8 +26,10 @@ void bind_A(Target &target) {
     bindee.def_readwrite_static("y", &Class::y);
 }
 
-void bind_default_arg_globals(py::module &bindee) {
-    bindee.def("bar", (void (*)(int, float)) &bar, py::arg("y") = A::y, py::arg("f") = ARG);
+template <typename Target>
+void bind_default_arg_globals(Target &target) {
+    namespace py = pybind11;
+    target.def("bar", (void (*)(int, float)) &bar, py::arg("y") = A::y, py::arg("f") = ARG);
 }
 
 #endif // BIND_DEFAULT_ARG_HH

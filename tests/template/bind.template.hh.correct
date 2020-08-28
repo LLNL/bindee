@@ -28,8 +28,10 @@ void bind_Example(Target &target, const std::string &classPrefix) {
     bindee.def_readwrite("t", &Class::t);
 }
 
-void bind_template_globals(py::module &bindee) {
-    bindee.def("foo", (const @T0@ * (*)(@T0@ &)) &foo<@T0@>, @RETURN_VALUE_POLICY@, py::arg("t"));
+template <typename Target>
+void bind_template_globals(Target &target) {
+    namespace py = pybind11;
+    target.def("foo", (const @T0@ * (*)(@T0@ &)) &foo<@T0@>, @RETURN_VALUE_POLICY@, py::arg("t"));
 }
 
 #endif // BIND_TEMPLATE_HH

@@ -34,8 +34,10 @@ void bind_Example(Target &target) {
     bindee.def_readwrite("readwrite", &Class::readwrite);
 }
 
-void bind_general_globals(py::module &bindee) {
-    bindee.def("f", (void (*)(NS::Example *)) &NS::f, py::arg("e"));
+template <typename Target>
+void bind_general_globals(Target &target) {
+    namespace py = pybind11;
+    target.def("f", (void (*)(NS::Example *)) &NS::f, py::arg("e"));
 }
 
 #endif // BIND_GENERAL_HH

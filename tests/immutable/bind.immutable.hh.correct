@@ -8,20 +8,22 @@
 
 // Bind functions.
 
-void bind_immutable_globals(py::module &bindee) {
-    bindee.def("aa", (void (*)(const int *)) &aa);
-    bindee.def("bb", (void (*)(const float *)) &bb);
-    bindee.def("cc", (void (*)(const double *)) &cc);
-    bindee.def("dd", (void (*)(const long &)) &dd);
-    bindee.def("ee", (void (*)(const bool &)) &ee);
-    bindee.def("ff", (void (*)(const std::string *)) &ff);
-    bindee.def("gg", (void (*)(const std::string &)) &gg);
-    bindee.def("aaa", (void (*)(int)) &aaa);
-    bindee.def("bbb", (void (*)(float)) &bbb);
-    bindee.def("ccc", (void (*)(double)) &ccc);
-    bindee.def("ddd", (void (*)(long)) &ddd);
-    bindee.def("eee", (void (*)(bool)) &eee);
-    bindee.def("fff", (void (*)(std::string)) &fff);
+template <typename Target>
+void bind_immutable_globals(Target &target) {
+    namespace py = pybind11;
+    target.def("aa", (void (*)(const int *)) &aa);
+    target.def("bb", (void (*)(const float *)) &bb);
+    target.def("cc", (void (*)(const double *)) &cc);
+    target.def("dd", (void (*)(const long &)) &dd);
+    target.def("ee", (void (*)(const bool &)) &ee);
+    target.def("ff", (void (*)(const std::string *)) &ff);
+    target.def("gg", (void (*)(const std::string &)) &gg);
+    target.def("aaa", (void (*)(int)) &aaa);
+    target.def("bbb", (void (*)(float)) &bbb);
+    target.def("ccc", (void (*)(double)) &ccc);
+    target.def("ddd", (void (*)(long)) &ddd);
+    target.def("eee", (void (*)(bool)) &eee);
+    target.def("fff", (void (*)(std::string)) &fff);
 }
 
 #endif // BIND_IMMUTABLE_HH

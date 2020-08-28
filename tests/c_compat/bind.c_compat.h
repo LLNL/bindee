@@ -26,10 +26,12 @@ void bind_Node(Target &target) {
     bindee.def_readwrite("next", &Class::next);
 }
 
-void bind_c_compat_globals(py::module &bindee) {
-    bindee.def("f", (void (*)(const int *, double)) &f);
-    bindee.def("g", (double * (*)()) &g, @RETURN_VALUE_POLICY@);
-    bindee.attr("x") = x;
+template <typename Target>
+void bind_c_compat_globals(Target &target) {
+    namespace py = pybind11;
+    target.def("f", (void (*)(const int *, double)) &f);
+    target.def("g", (double * (*)()) &g, @RETURN_VALUE_POLICY@);
+    target.attr("x") = x;
 }
 
 #endif // BIND_C_COMPAT_H

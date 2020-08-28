@@ -24,12 +24,12 @@ const std::string Database::DELIM = "!@#$";
 
 namespace {
 void 
-write(std::ofstream &ofs, const std::string &s) {
+write(std::ofstream &ofs, const std::string &s, const std::string &o = BINDEE) {
     if (!s.empty()) {
         if (opts.useChain) {
             ofs << Database::INDENT << Database::INDENT << s << "\n";
         } else {
-            ofs << Database::INDENT << BINDEE << s << ";\n";
+            ofs << Database::INDENT << o << s << ";\n";
         }
     }
 }
@@ -473,11 +473,13 @@ codegen() const
         headerBase = headerBase.substr(0, headerBase.rfind("."));
         toId(headerBase, false);
 
-        ofs << "void bind_" << headerBase << "_globals(py::module &"
-            << BINDEE << ") {\n";
+        ofs << "template <typename Target>\n"
+            << "void bind_" << headerBase << "_globals(Target &"
+            << TARGET << ") {\n"
+            << INDENT << "namespace py = pybind11;\n";
 
         if (opts.useChain) {
-            ofs << INDENT << BINDEE << "\n";
+            ofs << INDENT << TARGET << "\n";
         }
 
         _bindGlobals(ofs, _freeFunctions);
@@ -551,9 +553,9 @@ _bindGlobals(std::ofstream &ofs, const std::vector<Bptr> &bindees) const
     Info info{"", false};
     for (const auto &bindee : bindees) {
         if (const auto *varBindee = dynamic_cast<const VariableBindee*>(bindee.get())) {
-            write(ofs, varBindee->bindGlobal());
+            write(ofs, varBindee->bindGlobal(), TARGET);
         } else {
-            write(ofs, bindee->bind(info));
+            write(ofs, bindee->bind(info), TARGET);
         }
     }
 }

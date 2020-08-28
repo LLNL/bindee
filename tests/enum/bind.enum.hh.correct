@@ -253,9 +253,11 @@ void bind_lower_1(Target &target) {
 
 }
 
-void bind_enum_globals(py::module &bindee) {
-    bindee.def("foo", (_nontemplated::D (*)(_nontemplated::C)) &foo);
-    bindee.def("foo", (typename templated<@T0@>::C (*)(typename templated<@T0@>::D)) &foo<@T0@>, py::arg("d"));
+template <typename Target>
+void bind_enum_globals(Target &target) {
+    namespace py = pybind11;
+    target.def("foo", (_nontemplated::D (*)(_nontemplated::C)) &foo);
+    target.def("foo", (typename templated<@T0@>::C (*)(typename templated<@T0@>::D)) &foo<@T0@>, py::arg("d"));
 }
 
 #endif // BIND_ENUM_HH
