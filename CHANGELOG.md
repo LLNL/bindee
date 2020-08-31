@@ -3,6 +3,7 @@
 ## [Unreleased]
 #### Changed
 - Move namespace alias to function scope.
+- Use templated Target for global bindings.
 
 ## [2.1.1]
 #### Added
